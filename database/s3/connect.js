@@ -13,7 +13,6 @@ const S3 = new AWS.S3();
     }).promise();
 
     let cachedFolders = await helpers.cacheFolderNames(bucketData.Contents);
-    let productEntries = [];
 
     for (let folder in cachedFolders) {
       let folderData = await S3.listObjectsV2({
@@ -30,7 +29,6 @@ const S3 = new AWS.S3();
 
       try {
         await card_images.insert(entry);
-
       } catch (error) {
         console.log('Error entering entries into MySQL datbase:', error);
       }
