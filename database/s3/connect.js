@@ -27,16 +27,12 @@ const S3 = new AWS.S3();
       let urls = await helpers.getImageUrls(folderData.Contents);
 
       let entry = {title, price, colors, urls};
-      productEntries.push(entry);
-    }
 
-    console.log('Product Entries:', productEntries);
-    for (let i = 0; i < productEntries.length; i++) {
-      let entry = productEntries[i];
       try {
         await card_images.insert(entry);
+
       } catch (error) {
-        console.log('Error entering entries:', error);
+        console.log('Error entering entries into MySQL datbase:', error);
       }
     }
 
