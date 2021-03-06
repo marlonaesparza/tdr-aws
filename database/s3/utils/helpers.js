@@ -49,11 +49,18 @@ module.exports.generateProductColors = () => {
 };
 
 // store all image urls in an array
-module.exports.getImageUrls = (contents) => {
+module.exports.getImageUrls = (contents, bucket) => {
   const imageUrls = [];
 
   for (let i = 0; i < contents.length; i++) {
-    let imageUrl = config.bucketUrl + contents[i].Key;
+    let imageUrl;
+    if (bucket === 'card') {
+      imageUrl = config.cardBucketUrl + contents[i].Key;
+    } else if (bucket === 'display') {
+      imageUrl = config.displayBucketUrl + contents[i].Key;
+    } else if (bucket === 'related') {
+      imageUrl = config.relatedBucketUrl + contents[i].Key;
+    }
     imageUrls.push(imageUrl);
   }
   return imageUrls;
