@@ -1,0 +1,9 @@
+#node packages
+node_modules
+
+#credentials
+database/s3/config.json
+database/mysql/config.js
+
+#environment variables
+.env
