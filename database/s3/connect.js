@@ -18,7 +18,7 @@ const S3 = new AWS.S3();
         Bucket: config.cardBucket
       }).promise();
 
-      let cachedFolders = await helpers.cacheFolderNames(cardBucketData.Contents);
+      let cachedFolders = helpers.cacheFolderNames(cardBucketData.Contents);
 
       for (let folder in cachedFolders) {
         let folderData = await S3.listObjectsV2({
@@ -26,12 +26,12 @@ const S3 = new AWS.S3();
           Prefix: cachedFolders[folder] + ''
         }).promise();
 
-        let title = await helpers.getProductTitle(folderData.Prefix);
+        let title = helpers.getProductTitle(folderData.Prefix);
         titles.push(title);
-        let price = await helpers.generateProductPrice();
+        let price = helpers.generateProductPrice();
         prices.push(price);
-        let colors = await helpers.generateProductColors();
-        let urls = await helpers.getImageUrls(folderData.Contents, 'card');
+        let colors = helpers.generateProductColors();
+        let urls = helpers.getImageUrls(folderData.Contents, 'card');
 
         let entry = {title, price, colors, urls};
 
@@ -53,7 +53,7 @@ const S3 = new AWS.S3();
         Bucket: config.displayBucket
       }).promise();
 
-      let cachedFolders = await helpers.cacheFolderNames(displayBucketData.Contents);
+      let cachedFolders = helpers.cacheFolderNames(displayBucketData.Contents);
 
       for (let folder in cachedFolders) {
         let folderData = await S3.listObjectsV2({
@@ -61,8 +61,7 @@ const S3 = new AWS.S3();
           Prefix: cachedFolders[folder] + ''
         }).promise();
 
-        let urls = await helpers.getImageUrls(folderData.Contents, 'display');
-
+        let urls = helpers.getImageUrls(folderData.Contents, 'display');
         let entry = {urls};
 
         try {
@@ -83,7 +82,7 @@ const S3 = new AWS.S3();
         Bucket: config.relatedBucket
       }).promise();
 
-      let urls = await helpers.getImageUrls(relatedBucketData.Contents, 'related');
+      let urls = helpers.getImageUrls(relatedBucketData.Contents, 'related');
 
       for (let i = 0; i < urls.length; i++) {
         let title = titles[i];
